@@ -18,9 +18,13 @@ def init_db():
 
 @app.route('/')
 def index():
+    query = request.args.get('q')
     with sqlite3.connect(DB_NAME) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM todo")
+        if query:
+            cursor.execute("SELECT * FROM todo WHERE title LIKE ?", ('%' + query + '%',))
+        else:
+            cursor.execute("SELECT * FROM todo")
         todos = cursor.fetchall() # Returns list of tuples (id, title, complete)
     return render_template('index.html', todos=todos)
 

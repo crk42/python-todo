@@ -17,6 +17,14 @@
             <p>Stay organized and get things done.</p>
         </header>
 
+        <form action="/" method="GET" class="add-form">
+            <input type="text" name="q" placeholder="Search tasks..." value="{{ request.args.get('q', '') }}">
+            <button type="submit"><i class="fas fa-search"></i></button>
+            {% if request.args.get('q') %}
+            <a href="/" style="display: flex; justify-content: center; align-items: center; width: 48px; height: 48px; border-radius: 12px; background-color: rgba(255, 255, 255, 0.1); color: var(--text-primary); text-decoration: none;"><i class="fas fa-times"></i></a>
+            {% endif %}
+        </form>
+
         <form action="/add" method="POST" class="add-form">
             <input type="text" name="title" placeholder="What needs to be done?" required autocomplete="off">
             <button type="submit"><i class="fas fa-plus"></i></button>
