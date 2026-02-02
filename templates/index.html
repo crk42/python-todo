@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Tasks</h1>
+            <p>Stay organized and get things done.</p>
+        </header>
+
+        <form action="/add" method="POST" class="add-form">
+            <input type="text" name="title" placeholder="What needs to be done?" required autocomplete="off">
+            <button type="submit"><i class="fas fa-plus"></i></button>
+        </form>
+
+        <ul class="todo-list">
+            {% for todo in todos %}
+            <li class="todo-item {% if todo[2] %}completed{% endif %}">
+                <span class="todo-text">{{ todo[1] }}</span>
+                <div class="actions">
+                    <a href="/update/{{ todo[0] }}" class="btn-check" title="Toggle Complete">
+                        <i class="fas fa-check"></i>
+                    </a>
+                    <a href="/delete/{{ todo[0] }}" class="btn-delete" title="Delete Task">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </div>
+            </li>
+            {% else %}
+            <li class="empty-state">
+                <p>No tasks yet. Add one above!</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
