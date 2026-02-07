@@ -6,15 +6,17 @@ A simple and robust Todo List web application built with Python and Flask. This 
 
 - **Add Tasks**: Easily create new tasks to keep track of what needs to be done.
 - **View Tasks**: See all your tasks in a clear list view.
-- **Mark as Complete**: Toggle the status of tasks between complete and incomplete.
+- **Real-time Search**: Filter tasks instantly as you type without page reloads.
+- **Mark as Complete**: Toggle task completion status using checkboxes - click anywhere on the task text or checkbox.
 - **Delete Tasks**: Remove tasks that are no longer needed.
 - **Data Persistence**: All changes are saved automatically to a SQLite database (`todo.db`).
+- **Modern UI**: Orange-themed interface with smooth animations and responsive design.
 
 ## Technologies Used
 
 - **Backend**: Python, Flask
 - **Database**: SQLite
-- **Frontend**: HTML, CSS, Jinja2 Templates
+- **Frontend**: HTML, CSS, JavaScript, Jinja2 Templates
 
 ## Installation
 
@@ -46,10 +48,25 @@ A simple and robust Todo List web application built with Python and Flask. This 
 ## Project Structure
 
 - `app.py`: The main Flask application file containing routes and database logic.
+- `algorithms.py`: Implementation of binary search and bubble sort algorithms.
+- `main.py`: Entry point to demonstrate algorithm functionality.
 - `requirements.txt`: List of Python dependencies.
-- `static/`: Directory for static assets like CSS and JavaScript files.
+- `static/`: Directory for static assets like CSS files.
 - `templates/`: Directory for HTML templates.
+- `test_algorithms.py`: Unit tests for algorithms.
+- `test_app.py`: Unit tests for Flask application.
 - `todo.db`: SQLite database file (created after running the app).
+
+## Testing
+
+Run the unit tests to validate functionality:
+```bash
+python -m unittest discover
+```
+
+The test suite includes:
+- Algorithm tests (binary search, bubble sort)
+- Application tests (add, update, delete, search tasks)
 
 ## License
 
