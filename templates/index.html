@@ -30,14 +30,14 @@
             <button type="submit"><i class="fas fa-plus"></i></button>
         </form>
 
-        <ul class="todo-list">
+        <ul class="todo-list" id="todoList">
             {% for todo in todos %}
             <li class="todo-item {% if todo[2] %}completed{% endif %}">
-                <span class="todo-text">{{ todo[1] }}</span>
+                <label class="todo-label">
+                    <input type="checkbox" class="todo-checkbox" {% if todo[2] %}checked{% endif %} onchange="window.location.href='/update/{{ todo[0] }}'">
+                    <span class="todo-text">{{ todo[1] }}</span>
+                </label>
                 <div class="actions">
-                    <a href="/update/{{ todo[0] }}" class="btn-check" title="Toggle Complete">
-                        <i class="fas fa-check"></i>
-                    </a>
                     <a href="/delete/{{ todo[0] }}" class="btn-delete" title="Delete Task">
                         <i class="fas fa-trash"></i>
                     </a>
@@ -50,5 +50,46 @@
             {% endfor %}
         </ul>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('input[name="q"]');
+            const todoList = document.getElementById('todoList');
+            const todoItems = todoList.querySelectorAll('.todo-item');
+            const emptyState = todoList.querySelector('.empty-state');
+
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const query = e.target.value.toLowerCase();
+                    let visibleCount = 0;
+
+                    todoItems.forEach(item => {
+                        const text = item.querySelector('.todo-text').textContent.toLowerCase();
+                        if (text.includes(query)) {
+                            item.style.display = 'flex';
+                            visibleCount++;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+
+                    // Manage empty state visibility if it exists
+                    if (emptyState) {
+                        if (visibleCount === 0 && query.length > 0) {
+                            // If we have an empty state element, ensure it's visible if no items match
+                            // However, the original empty state is for "no tasks at all". 
+                            // We might want a "no results found" message, but for now let's just leave it.
+                            // Providing a simple fallback if strictly needed.
+                             emptyState.style.display = 'none'; 
+                        } else if (visibleCount === 0 && query.length === 0) {
+                             emptyState.style.display = 'block';
+                        } else {
+                             emptyState.style.display = 'none';
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

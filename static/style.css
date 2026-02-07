@@ -184,3 +184,18 @@ header p {
     border: 1px dashed rgba(255, 255, 255, 0.1);
     border-radius: 12px;
 }
+
+.todo-checkbox {
+    width: 20px;
+    height: 20px;
+    margin-right: 1rem;
+    cursor: pointer;
+    accent-color: var(--success-color);
+}
+
+.todo-label {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+}

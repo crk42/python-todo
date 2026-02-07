@@ -91,5 +91,33 @@ class TestTodoApp(unittest.TestCase):
             task = cursor.fetchone()
             self.assertIsNone(task)
 
+    def test_search_todo(self):
+        # Add tasks
+        self.app.post('/add', data=dict(title='Buy Milk'), follow_redirects=True)
+        self.app.post('/add', data=dict(title='Walk Dog'), follow_redirects=True)
+        self.app.post('/add', data=dict(title='Read Book'), follow_redirects=True)
+
+        # Search for 'Milk'
+        response = self.app.get('/?q=Milk')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Buy Milk', response.data)
+        self.assertNotIn(b'Walk Dog', response.data)
+        self.assertNotIn(b'Read Book', response.data)
+
+        # Search for 'k' (should match 'Milk', 'Walk', 'Book')
+        response = self.app.get('/?q=k')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Buy Milk', response.data)
+        # Walk Dog contains 'k', so it should be in the results.
+        self.assertIn(b'Walk Dog', response.data)
+        self.assertIn(b'Read Book', response.data)
+
+        # Search for non-existent
+        response = self.app.get('/?q=Unicorn')
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn(b'Buy Milk', response.data)
+        self.assertNotIn(b'Walk Dog', response.data)
+        self.assertNotIn(b'Read Book', response.data)
+
 if __name__ == '__main__':
     unittest.main()
